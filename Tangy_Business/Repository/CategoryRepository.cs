@@ -48,7 +48,7 @@ namespace Tangy_Business.Repository
             var obj = _db.Categories.FirstOrDefault(u => u.Id == id);
             if (obj != null)
             {
-                _mapper.Map<Category, CategoryDTO>(obj);
+                return _mapper.Map<Category, CategoryDTO>(obj);
             }
             return new CategoryDTO();
         }
