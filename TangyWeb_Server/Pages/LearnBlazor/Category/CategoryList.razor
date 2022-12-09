@@ -4,8 +4,8 @@
 @*@using Tangy_Common
 *@@*@attribute [Authorize(Roles = SD.Role_Admin)]
 *@
-@*<_DeleteConfirmation IsParentComponentProcessing="IsLoading" ConfirmationChanged="ConfirmDelete_Click"></_DeleteConfirmation>
-*@<div class="row mt-4">
+<_DeleteConfirmation IsParentComponentProcessing="IsLoading" ConfirmationChanged="ConfirmDelete_Click"></_DeleteConfirmation>
+<div class="row mt-4">
     <div class="col-6">
         <h4 class="card-title text-primary">Category List</h4>
     </div>
@@ -31,8 +31,8 @@
                             </td>
                             <td>
                                 <NavLink href="@($"category/edit/{objCat.Id}")" class="btn-primary btn">Edit</NavLink>
-@*                                <button class="btn btn-danger" @onclick="()=>HandleDelete(objCat.Id)">Delete</button>
-*@                            </td>
+                                <button class="btn btn-danger" @onclick="()=>HandleDelete(objCat.Id)">Delete</button>
+                            </td>
                         </tr>
                     }
                 </tbody>
@@ -58,25 +58,20 @@
 
 @code {
     private IEnumerable<CategoryDTO> Categories { get; set; } = new List<CategoryDTO>();
-    public bool IsLoading { get; set; }
+    public bool IsLoading { get; set; } = true;
     private int DeleteCategoryId { get; set; } = 0;
 
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        if (firstRender)
-        {
-            await LoadCategories();
-        }
+        await Task.Run(LoadCategories);
     }
 
     private async Task LoadCategories()
     {
         IsLoading = true;
-        StateHasChanged();
         Categories = _categoryRepository.GetAll();
         IsLoading = false;
-        StateHasChanged();
     }
 
     private void HandleDelete(int id)
