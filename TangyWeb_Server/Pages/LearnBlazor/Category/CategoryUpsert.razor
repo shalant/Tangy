@@ -40,44 +40,48 @@
 
     private CategoryDTO Category { get; set; } = new CategoryDTO();
     private string Title { get; set; } = "Create";
-    public bool IsLoading { get; set; } = true;
-    protected override async Task OnInitializedAsync()
+    public bool IsLoading { get; set; }
+    protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        if (Id == 0)
+        if (firstRender)
         {
-            //create
+            if (Id == 0)
+            {
+                //create
+                IsLoading = false;
+            }
+            else
+            {
+                //update
+                Title = "Update";
+                await LoadCategory();
+            }
+        }
+    }
+
+
+        private async Task LoadCategory()
+        {
+            IsLoading = true;
+            StateHasChanged();
+            Category = await _categoryRepository.Get(Id);
             IsLoading = false;
+            StateHasChanged();
         }
-        else
+        private async Task UpsertCategory()
         {
-            //update
-            Title = "Update";
-            await Task.Run(LoadCategory);
-        }
-    }
-
-    private async Task LoadCategory()
-    {
-        //IsLoading = true;
-        //StateHasChanged();
-        Category = _categoryRepository.Get(Id);
-        IsLoading = false;
-        //StateHasChanged();
-    }
-    private async Task UpsertCategory()
-    {
-        if (Category.Id == 0)
-        {
-            //create
-            _categoryRepository.Create(Category);
-        }
-        else
-        {
-            //update
-            _categoryRepository.Update(Category);
-        }
-        _navigationManager.NavigateTo("category");
+            if (Category.Id == 0)
+            {
+                //create
+                await _categoryRepository.Create(Category);
+            }
+            else
+            {
+                //update
+                await _categoryRepository.Update(Category);
+            }
+            _navigationManager.NavigateTo("category");
 
 
+        }
     }
-}
