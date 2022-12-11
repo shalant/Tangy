@@ -3,6 +3,8 @@
 @inject ICategoryRepository _categoryRepository
 @inject IProductRepository _productRepository
 @inject NavigationManager _navigationManager
+@inject IFileUpload _fileUpload
+@inject IJSRuntime _jsRuntime
 
 <div class="row my-2">
     <h3 class="card-title text-primary mb-3 ml-3">@Title Product</h3>
@@ -53,12 +55,15 @@
                         <InputSelect @bind-Value="Product.CategoryId" class="form-select">
                             <option value="0" disabled="disabled" selected>--Select Category--</option>
                             @foreach (var cat in Categories)
-                        {
-                            <option value="@cat.Id">@cat.Name</option>
-                        }
+                            {
+                                <option value="@cat.Id">@cat.Name</option>
+                            }
 
                         </InputSelect>
                         <ValidationMessage For="()=>Product.CategoryId"></ValidationMessage>
+                    </div>
+                    <div class="from-group col-6">
+                        <InputFile OnChange="HandleImageUpload"></InputFile>
                     </div>
                 </div>
 
@@ -69,6 +74,9 @@
             </EditForm>
         }
     </div>
+    <div class="col-md-2">
+        <img src="@Product.ImageUrl" class="w-100" />
+    </div>
 </div>
 
 @code {
@@ -76,7 +84,10 @@
     [Parameter]
     public int Id { get; set; }
 
-    private ProductDTO Product { get; set; } = new();
+    private ProductDTO Product { get; set; } = new()
+    {
+        ImageUrl="/images/default.png"
+    };
     private IEnumerable<CategoryDTO> Categories { get; set; } = new List<CategoryDTO>();
     private string Title { get; set; } = "Create";
     public bool IsLoading { get; set; }
@@ -118,7 +129,36 @@
             await _productRepository.Update(Product);
         }
         _navigationManager.NavigateTo("product");
+    }
 
-
+    private async Task HandleImageUpload(InputFileChangeEventArgs e)
+    {
+        IsLoading = true;
+        try
+        {
+            if (e.GetMultipleFiles().Count > 0)
+            {
+                foreach (var file in e.GetMultipleFiles())
+                {
+                    System.IO.FileInfo fileInfo = new System.IO.FileInfo(file.Name);
+                    if (fileInfo.Extension.ToLower() == ".jpg" ||
+                      fileInfo.Extension.ToLower() == ".png" ||
+                      fileInfo.Extension.ToLower() == ".jpeg")
+                    {
+                        Product.ImageUrl = await _fileUpload.UploadFile(file);
+                    }
+                    else
+                    {
+                        await _jsRuntime.ToastrError("Please select .jpg/.jpeg/.png file only");
+                        return;
+                    }
+                }
+            }
+            IsLoading = false;
+        }
+        catch (Exception ex)
+        {
+            await _jsRuntime.ToastrError(ex.Message);
+        }
     }
 }
