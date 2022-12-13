@@ -7,15 +7,12 @@ using System.Threading.Tasks;
 
 namespace Tangy_DataAccess
 {
-    public class OrderHeader
+    public class OrderHeaderDTO
     {
-        [Key]
         public int Id { get; set; }
 
         [Required]
         public string UserId { get; set; }
-        // add nagivation property : #TODO
-
 
         [Required]
         public double OrderTotal { get; set; }
