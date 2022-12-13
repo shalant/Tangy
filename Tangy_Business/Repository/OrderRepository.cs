@@ -80,7 +80,7 @@ namespace Tangy_Business.Repository
             {
                 return _mapper.Map<Order, OrderDTO>(order);
             }
-            return new OrderDTO;
+            return new OrderDTO();
         }
 
         public async Task<IEnumerable<OrderDTO>> GetAll(string? userId = null, string? status = null)
