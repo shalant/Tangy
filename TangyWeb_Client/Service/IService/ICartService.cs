@@ -4,6 +4,8 @@ namespace TangyWeb_Client.Service.IService
 {
     public interface ICartService
     {
+        public event Action OnChange;
+
         Task DecrementCart(ShoppingCart choppingCart);
         Task IncrementCart(ShoppingCart choppingCart);
     }
