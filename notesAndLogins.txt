@@ -1,6 +1,10 @@
 admin@admin
 Admin1!
 
+UserName = "bhrugen@dotnetmastery.com",
+                    Email = "bhrugen@gotnetmastery.com",
+                    EmailConfirmed = true,
+user, "Admin123*"
 
 Nzc3MzQzQDMyMzAyZTMzMmUzMEg2L25tZ2FwVEMzSVJ4NElwV01BZWlyYjNYY1ZabExLL05ldm9jZDIvZms9
 
