@@ -1,11 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Options;
-using Microsoft.IdentityModel.Tokens;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Text;
 using Tangy_Common;
 using Tangy_DataAccess;
 using Tangy_Models;
@@ -31,9 +26,9 @@ namespace TangyWeb_API.Controllers
         }
 
         [HttpPost]
-            public async Task<IActionResult> SignUp([FromBody] SignUpRequestDTO signUpRequestDTO)
+        public async Task<IActionResult> SignUp([FromBody] SignUpRequestDTO signUpRequestDTO)
         {
-            if(signUpRequestDTO == null || !ModelState.IsValid)
+            if (signUpRequestDTO == null || !ModelState.IsValid)
             {
                 return BadRequest();
             }
@@ -67,6 +62,41 @@ namespace TangyWeb_API.Controllers
                     Errors = result.Errors.Select(u => u.Description)
                 });
             }
+            return StatusCode(201);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> SignIn([FromBody] SignInRequestDTO signInRequestDTO)
+        {
+            if (signInRequestDTO == null || !ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+
+            var result = await _signInManager.PasswordSignInAsync(signInRequestDTO.UserName, signInRequestDTO.Password, false);
+            if (result.Succeeded)
+            {
+                var user = await _userManager.FindByNameAsync(signInRequestDTO.UserName);
+                if(user == null)
+                {
+                    return Unauthorized(new SignInResponseDTO
+                    {
+                        IsAuthSuccessful = false,
+                        ErrorMessage = "Invalid Authentication"
+                    });
+                }
+
+                //everything is valid and we need to login
+            }
+            else
+            {
+                return Unauthorized(new SignInResponseDTO
+                    {
+                    IsAuthSuccessful = false,
+                    ErrorMessage = "Invalid Authentication"
+                });
+            }
+            
             return StatusCode(201);
         }
     }
