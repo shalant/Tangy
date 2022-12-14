@@ -1,0 +1,13 @@
+admin@admin
+Admin1!
+
+
+Nzc3MzQzQDMyMzAyZTMzMmUzMEg2L25tZ2FwVEMzSVJ4NElwV01BZWlyYjNYY1ZabExLL05ldm9jZDIvZms9
+
+
+Newtonsoft.Json.JsonConvert.DeserializeObject[ErrorModelDTO](String value, JsonSerializerSettings settings)
+   at Newtonsoft.Json.JsonConvert.DeserializeObject[ErrorModelDTO](String value)
+   at TangyWeb_Client.Service.ProductService.Get(Int32 productId) in C:\Users\digdr\Documents\coding\Tangy\TangyWeb_Client\Service\ProductService.cs:line 33
+   at TangyWeb_Client.Pages.Details.OnInitializedAsync() in C:\Users\digdr\Documents\coding\Tangy\TangyWeb_Client\Pages\Details.razor:line 74
+   at Microsoft.AspNetCore.Components.ComponentBase.RunInitAndSetParametersAsync()
+   at Microsoft.AspNetCore.Components.RenderTree.Renderer.GetErrorHandledTask(Task taskToHandle, ComponentState owningComponentState)
