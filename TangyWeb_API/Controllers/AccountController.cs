@@ -111,9 +111,16 @@ namespace TangyWeb_API.Controllers
                 return Ok(new SignInResponseDTO()
                 {
                     IsAuthSuccessful = true,
+   
                     Token = token,
                     UserDTO = new UserDTO()
-                };
+                    {
+                        Name = user.Name,
+                        Id = user.Id,
+                        Email = user.Email,
+                        PhoneNumber = user.PhoneNumber
+                    }
+                });
 
             }
             else
@@ -132,7 +139,7 @@ namespace TangyWeb_API.Controllers
         {
             var secret = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_aPISettings.SecretKey));
 
-            return new SigningCredentials(secret, SecurityAlgorithms.Sha256);
+            return new SigningCredentials(secret, SecurityAlgorithms.HmacSha256);
         }
 
         private async Task<List<Claim>> GetClaims(ApplicationUser user)
