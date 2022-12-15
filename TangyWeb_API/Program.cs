@@ -40,7 +40,8 @@ builder.Services.AddSwaggerGen(c =>
                       new string[] { }
                     }
                 });
-}); builder.Services.AddDbContext<ApplicationDbContext>(options =>
+}); 
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>().AddDefaultTokenProviders()
     .AddEntityFrameworkStores<ApplicationDbContext>();
@@ -67,7 +68,8 @@ builder.Services.AddAuthentication(opt =>
         ValidateAudience = true,
         ValidateIssuer = true,
         ValidAudience = apiSettings.ValidAudience,
-        ValidIssuer = apiSettings.ValidIssuer
+        ValidIssuer = apiSettings.ValidIssuer,
+        ClockSkew = TimeSpan.Zero
     };
 });
 

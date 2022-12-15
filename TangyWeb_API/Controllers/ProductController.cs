@@ -9,7 +9,7 @@ namespace TangyWeb_API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ProductController : Controller
+    public class ProductController : ControllerBase
     {
         private readonly IProductRepository _productRepository;
 
@@ -19,7 +19,6 @@ namespace TangyWeb_API.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = SD.Role_Customer)]
         public async Task<IActionResult> GetAll()
         {
             return Ok(await _productRepository.GetAll());

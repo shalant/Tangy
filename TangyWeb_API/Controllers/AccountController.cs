@@ -95,7 +95,7 @@ namespace TangyWeb_API.Controllers
                     });
                 }
 
-                //everything is valid and we need to login
+                //everything is valid and we need to login 
                 var signinCredentials = GetSigningCredentials();
                 var claims = await GetClaims(user);
 
@@ -111,7 +111,6 @@ namespace TangyWeb_API.Controllers
                 return Ok(new SignInResponseDTO()
                 {
                     IsAuthSuccessful = true,
-   
                     Token = token,
                     UserDTO = new UserDTO()
                     {
@@ -131,9 +130,10 @@ namespace TangyWeb_API.Controllers
                     ErrorMessage = "Invalid Authentication"
                 });
             }
-                
+
             return StatusCode(201);
         }
+
 
         private SigningCredentials GetSigningCredentials()
         {
@@ -146,9 +146,9 @@ namespace TangyWeb_API.Controllers
         {
             var claims = new List<Claim>
             {
-                new Claim(ClaimTypes.Name, user.Email),
-                new Claim(ClaimTypes.Email, user.Email),
-                new Claim("Id", user.Id)
+                new Claim(ClaimTypes.Name,user.Email),
+                new Claim(ClaimTypes.Email,user.Email),
+                new Claim("Id",user.Id)
             };
 
             var roles = await _userManager.GetRolesAsync(await _userManager.FindByEmailAsync(user.Email));
