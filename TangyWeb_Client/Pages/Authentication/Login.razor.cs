@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components;
 using System;
+using System.Web;
 using Tangy_Models;
 using TangyWeb_Client.Service.IService;
 
@@ -17,6 +18,7 @@ namespace TangyWeb_Client.Pages.Authentication
         public IAuthenticationService _authService { get; set; }
         [Inject]
         public NavigationManager _navigationManager { get; set; }
+        public string ReturnUrl { get; set; }
 
         private async Task LoginUser()
         {
@@ -26,7 +28,18 @@ namespace TangyWeb_Client.Pages.Authentication
             if (result.IsAuthSuccessful)
             {
                 // registration is successful
-                _navigationManager.NavigateTo("/");
+                var absoluteUri = new Uri(_navigationManager.Uri);
+                var queryParam = HttpUtility.ParseQueryString(absoluteUri.Query);
+                ReturnUrl = queryParam["returnUrl"];
+                if (string.IsNullOrEmpty(ReturnUrl))
+                {
+                    _navigationManager.NavigateTo("/");
+
+                }
+                else
+                {
+                    _navigationManager.NavigateTo("/" + ReturnUrl);
+                }
             }
             else
             {
@@ -34,8 +47,8 @@ namespace TangyWeb_Client.Pages.Authentication
                 Errors = result.ErrorMessage;
                 ShowSignInErrors = true;
             }
-            IsProcessing = false;
+                IsProcessing = false;
+            }
         }
     }
-}
 
