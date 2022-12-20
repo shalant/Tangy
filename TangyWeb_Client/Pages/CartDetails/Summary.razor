@@ -161,6 +161,7 @@ else
     {
         try
         {
+            IsProcessing = true;
             var paymentDTO = new StripePaymentDTO()
                 {
                     Order = Order
