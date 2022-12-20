@@ -14,13 +14,13 @@ namespace TangyWeb_Client.Service
             _httpClient = httpClient;
         }
 
-        public async Task<SuccessModelDTO> CheckoutException(StripePaymentDTO model)
+        public async Task<SuccessModelDTO> Checkout(StripePaymentDTO model)
         {
             try
             {
                 var content = JsonConvert.SerializeObject(model);
                 var bodyContent = new StringContent(content, Encoding.UTF8, "application/json");
-                var response = await _httpClient.PostAsync("api/stripepayment", bodyContent);
+                var response = await _httpClient.PostAsync("api/stripepayment/create", bodyContent);
                 string responseResult = response.Content.ReadAsStringAsync().Result;
                 if (response.IsSuccessStatusCode)
                 {
@@ -38,11 +38,6 @@ namespace TangyWeb_Client.Service
 
                 throw new Exception(ex.Message);
             }
-            
-        }
-
-        public async Task<OrderDTO> Create(StripePaymentDTO paymentDTO)
-        {
             
         }
 
