@@ -89,7 +89,8 @@ namespace Tangy_Business.Repository
             IEnumerable<OrderHeader> orderHeaderList = _db.OrderHeaders;
             IEnumerable<OrderDetail> orderDetailList = _db.OrderDetails;
 
-            foreach (var header in orderHeaderList)
+            //in the below line, i recently changed OrderHeader from var, according to the GH code...
+            foreach (OrderHeader header in orderHeaderList)
             {
                 Order order = new()
                 {

@@ -27,6 +27,7 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.10" />
+    <PackageReference Include="Radzen.Blazor" Version="4.4.7" />
     <PackageReference Include="Syncfusion.Blazor.Grid" Version="20.3.0.60" />
     <PackageReference Include="Syncfusion.Blazor.RichTextEditor" Version="20.3.0.60" />
     <PackageReference Include="Syncfusion.Blazor.Themes" Version="20.3.0.60" />
