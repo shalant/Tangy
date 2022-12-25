@@ -1,0 +1,3 @@
+db server name: tangyblazor11
+adminuser
+&dmin123

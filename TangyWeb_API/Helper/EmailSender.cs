@@ -19,7 +19,7 @@ namespace TangyWeb_API.Helper
                 // send email
                 using var emailClient = new SmtpClient();
                 emailClient.Connect("smtp.gmail.com", 587, MailKit.Security.SecureSocketOptions.StartTls);
-                emailClient.Authenticate("doug.rosenberg@gmail.com", "presidentwarren");
+                emailClient.Authenticate("doug.rosenberg@gmail.com", "poopinyourpants");
                 emailClient.Send(emailToSend);
                 emailClient.Disconnect(true);
             }
