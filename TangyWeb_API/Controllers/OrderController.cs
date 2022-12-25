@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Stripe.Checkout;
 using Tangy_Business.Repository.IRepository;
@@ -11,10 +12,12 @@ namespace TangyWeb_API.Controllers
     public class OrderController : Controller
     {
         private readonly IOrderRepository _orderRepository;
+        private readonly IEmailSender _emailSender;
 
-        public OrderController(IOrderRepository orderRepository)
+        public OrderController(IOrderRepository orderRepository, IEmailSender emailSender)
         {
             _orderRepository = orderRepository;
+            _emailSender = emailSender;
         }
 
         [HttpGet]
@@ -64,8 +67,9 @@ namespace TangyWeb_API.Controllers
             var sessionDetails = service.Get(orderHeaderDTO.SessionId);
             if (sessionDetails.PaymentStatus == "paid")
             {
-                var result = await _orderRepository.MarkPaymentSuccessful(orderHeaderDTO.Id,
-                    sessionDetails.PaymentIntentId);
+                var result = await _orderRepository.MarkPaymentSuccessful(orderHeaderDTO.Id);
+                await _emailSender.SendEmailAsync(orderHeaderDTO.Email, "Tangy Order Confirmation",
+                    "New Order Has been created :" + orderHeaderDTO.Id);
                 if(result == null)
                 {
                     return BadRequest(new ErrorModelDTO()
