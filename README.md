@@ -10,6 +10,7 @@ This application uses ASP.NET Blazor for both front and backend. A few plugins l
 ## Server/Seller App
 If you visit https://tangywebserver11.azurewebsites.net, you have the ability to register, login, and CRUD various soaps and candles. The ability to CRUD is protected by authorization. A normal user cannot CRUD products. Only an admin has the ability to work on inventory management.
 
+<img src="/createproduct.png" alt="Homepage" title="Homepage">
 
 
 ## Client App
